@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="LOGIN.css">
+    <link rel="icon" href="nosa.png" type="image/x-icon">
+    <title>Ln Monarca</title>
+    <style>
+        body{
+            background-image: url(/Login_Cadastro/2321/img.jpg);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="dir" >
+        <h1 align="center" style="letter-spacing: 5px;">LOGIN</h1>
+   
+        <form action="consultar_dados.php" method="post">
+            <div class="input-container">
+                <label for="nome"> Email: </label><br><br>
+                <input type="text" id="email" name="email" placeholder="Email" required> <br><br>
+            </div>
+            <div class="input-container">
+                <label for="sobrenome">Senha: </label><br><br>
+                <input type="password" id="senha" name="senha" placeholder="Senha" required> <br><br>
+            </div>
+            <input id="btn" type="submit" value="Entrar">
+        </form>
+    </div>
+    <br>
+    <p id="entre"><strong> Faça seu<a href="CADASTRO.html" style="text-decoration: none;"> Registro!!</a></strong></p>
+    </div>
+</body>
+</html>

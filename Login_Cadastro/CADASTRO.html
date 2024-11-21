@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="cadastro.css">
+    <link rel="icon" href="nosa.png" type="image/x-icon">
+  
+    <title>Ln Monarca</title>
+</head>
+<body>
+    <div class="cadastro-card">
+        <div class="dir">
+        <h1  align="center" style="letter-spacing: 5px;" id="title">CADASTRO</h1>
+        <form action="form_inserir.php" method="post"><!--AQUI E O FORM DE CADASTRO-->
+            <br>
+            <div class="input-container">
+                <label for="nome">Nome/Vulgo: </label><br><br>
+                <input type="text" id="nome" name="nome" placeholder="Nome/Vulgo" required> <br><br>
+            </div>
+
+            <div class="input-container">
+                <label for="nome"> Email: </label><br><br>
+                <input type="email" id="email" name="email" placeholder="Email" required><br><br>
+            </div>
+
+            <div class="input-container">
+            <label for="sobrenome">Senha: </label><br><br>
+            <input type="password" id="senha" name="senha" placeholder="Senha" required> <br><br>
+            </div>
+
+            <input id="btn" type="submit" value="Enviar">
+        </form><!--AQUI ACABA O FORM DE CADASTRO-->
+        <br>
+        <p>Já esta cadastrado?</p>
+        <p id="entre"><strong>  <a href="LOGIN.html" style="text-decoration: none;">Entre aqui</a></strong></p> <!--HREF-->
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+body{
+    background-image: url(/Login_Cadastro/2321/—Pngtree—barbershop\ necessities\ 3d\ rendered\ barber_11967573\ \(1\).jpg);
+    color: #ffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+a{
+    color: #77132f;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+
+.cadastro-card {
+    background-color: #ffffff;
+    padding: 1rem;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 1.5rem;
+    color: #ff000000;
+}
+
+.input-container {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.input-container label {
+    display: block;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 0.3rem;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#btn {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #77132f;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+p{
+    color: #000000;
+}
+
+#title{
+    margin-bottom: 1.5rem;
+    color: #000000;
+}

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="/Login_Cadastro/nosa.png">
+  <title>Ln Monarca</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background-image: url(/barbearia/fotos/—Pngtree—barbershop\ necessities\ 3d\ rendered\ barber_11967573\ \(1\).jpg);
+      color: #ffff;
+    }
+    h1, h2, h3 {
+      margin: 10px 0;
+    }
+    #gameBoard {
+      display: grid;
+      grid-template-rows: repeat(20, 20px);
+      grid-template-columns: repeat(20, 20px);
+      gap: 1px;
+      border: 2px solid #333;
+      margin-top: 20px;
+    }
+    .cell {
+      width: 20px;
+      height: 20px;
+      background-color: #f0f0f0;
+    }
+    .snake {
+      background-color: green;
+    }
+    .food {
+      background-color: red;
+    }
+    .score {
+      margin-top: 10px;
+    }
+
+    *{
+      color: #ffffff;
+    }
+
+    h1{
+      color: #ff336d;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px; /* Espaço entre os botões */
+      padding: 20px;
+    }
+
+    /* Botão estilizado */
+    .styled-button {
+      width: 150px; /* Tamanho fixo para todos os botões */
+      padding: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #ffffff;
+      background: linear-gradient(135deg, #ff7e5f, #77132f); /* Gradiente suave */
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    /* Efeito de hover */
+    .styled-button:hover {
+      background: linear-gradient(135deg, #77132f, #77132f);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px); /* Efeito de elevação ao hover */
+    }
+
+    /* Efeito de clique */
+    .styled-button:active {
+      transform: translateY(0);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Animação ao hover (brilho sutil) */
+    .styled-button::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background: rgba(255, 255, 255, 0.3);
+      transition: all 0.75s;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0.1);
+    }
+
+    .styled-button:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+    }
+
+    .hover-line::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 2px;
+    background: #000000;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.hover-line:hover::after {
+    transform: scaleX(1);
+    transform-origin: right;
+}
+
+.hover-line {
+    position: relative;
+    display: inline-block;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    color: #ffffff;
+    margin-left: -197vh;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+a{
+    color: #ffff;
+}
+
+a:hover{
+    color: #000000;
+}
+
+  </style>
+</head>
+<body>
+  <div class="hover-line">
+    <a href="index.html"> ← Voltar</a>
+  </div>
+  <h1>Cobrinha da Ln Monarca</h1>
+  <h2>Escolha a Dificuldade</h2>
+  <div class="button-container">
+    <button class="styled-button" onclick="startGame('facil')">Fácil</button>
+    <br>
+    <button class="styled-button" onclick="startGame('medio')">Médio</button>
+    <br>
+    <button class="styled-button" onclick="startGame('dificil')">Difícil</button>
+  </div>
+  <h3 id="score" class="score">Pontuação: 0</h3>
+  <h3 id="highScore" class="score">Maior Pontuação: 0</h3>
+
+  <div id="gameBoard"></div>
+
+  <script>
+    // Variáveis do jogo
+    let snake = [{ x: 10, y: 10 }];
+    let food = { x: 5, y: 5 };
+    let direction = { x: 0, y: 0 };
+    let score = 0;
+    let highScore = localStorage.getItem("highScore") || 0;
+    let speed;
+    let gameInterval;
+
+    // Seletores de elementos
+    const gameBoard = document.getElementById('gameBoard');
+    const scoreDisplay = document.getElementById('score');
+    const highScoreDisplay = document.getElementById('highScore');
+
+    // Função para iniciar o jogo
+    function startGame(dificuldade) {
+      snake = [{ x: 10, y: 10 }];
+      direction = { x: 0, y: 0 };
+      score = 0;
+      placeFood();
+      clearInterval(gameInterval);
+
+      // Definindo velocidade com base na dificuldade
+      if (dificuldade === 'facil') speed = 200;
+      if (dificuldade === 'medio') speed = 100;
+      if (dificuldade === 'dificil') speed = 50;
+
+      gameInterval = setInterval(updateGame, speed);
+    }
+
+    // Função para atualizar o jogo
+    function updateGame() {
+      moveSnake();
+      if (checkCollision()) {
+        alert('Game Over!');
+        clearInterval(gameInterval);
+        if (score > highScore) {
+          highScore = score;
+          localStorage.setItem("highScore", highScore);
+        }
+      } else {
+        if (isEatingFood()) {
+          score++;
+          placeFood();
+          snake.push({}); // Aumenta a cobra
+        }
+        renderGame();
+        scoreDisplay.innerText = 'Pontuação: ' + score;
+        highScoreDisplay.innerText = 'Maior Pontuação: ' + highScore;
+      }
+    }
+
+    // Função para movimentar a cobra
+    function moveSnake() {
+      for (let i = snake.length - 2; i >= 0; i--) {
+        snake[i + 1] = { ...snake[i] };
+      }
+      snake[0].x += direction.x;
+      snake[0].y += direction.y;
+    }
+
+    // Função para verificar colisão
+    function checkCollision() {
+      if (snake[0].x < 0 || snake[0].x >= 20 || snake[0].y < 0 || snake[0].y >= 20) return true;
+      for (let i = 1; i < snake.length; i++) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
+      }
+      return false;
+    }
+
+    // Função para verificar se comeu a comida
+    function isEatingFood() {
+      return snake[0].x === food.x && snake[0].y === food.y;
+    }
+
+    // Função para posicionar a comida
+    function placeFood() {
+      food.x = Math.floor(Math.random() * 20);
+      food.y = Math.floor(Math.random() * 20);
+      if (snake.some(segment => segment.x === food.x && segment.y === food.y)) {
+        placeFood();
+      }
+    }
+
+    // Função para renderizar o jogo
+    function renderGame() {
+      gameBoard.innerHTML = '';
+      for (let row = 0; row < 20; row++) {
+        for (let col = 0; col < 20; col++) {
+          const cell = document.createElement('div');
+          cell.classList.add('cell');
+          if (snake.some(segment => segment.x === col && segment.y === row)) {
+            cell.classList.add('snake');
+          }
+          if (food.x === col && food.y === row) {
+            cell.classList.add('food');
+          }
+          gameBoard.appendChild(cell);
+        }
+      }
+    }
+
+    // Controles do jogo
+    window.addEventListener('keydown', e => {
+      switch (e.key) {
+        case 'ArrowUp':
+          if (direction.y === 0) direction = { x: 0, y: -1 };
+          break;
+        case 'ArrowDown':
+          if (direction.y === 0) direction = { x: 0, y: 1 };
+          break;
+        case 'ArrowLeft':
+          if (direction.x === 0) direction = { x: -1, y: 0 };
+          break;
+        case 'ArrowRight':
+          if (direction.x === 0) direction = { x: 1, y: 0 };
+          break;
+      }
+    });
+
+    // Exibir a maior pontuação ao carregar a página
+    highScoreDisplay.innerText = 'Maior Pontuação: ' + highScore;
+  </script>
+</body>
+</html>
